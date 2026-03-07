@@ -12,8 +12,11 @@ connectDB();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+app.use(cors({
+    origin: ["https://coruscating-dango-33cf96.netlify.app", "http://localhost:5173", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 
 // Routes
