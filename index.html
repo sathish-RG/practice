@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday 🎂</title>
+
+    <!-- ===================== CSS ===================== -->
+    <style>
+        /* ---------- Reset & Base ---------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --pink: #ff6eb4;
+            --purple: #a855f7;
+            --gold: #fbbf24;
+            --flame1: #ff9d00;
+            --flame2: #ff4d00;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: #1a0030;
+        }
+
+        /* ---------- Animated Gradient Background ---------- */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, #1a0030, #3b0764, #6b21a8, #1a0030);
+            background-size: 400% 400%;
+            animation: gradShift 10s ease infinite;
+        }
+
+        @keyframes gradShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glow overlay – activated on click */
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            background: radial-gradient(ellipse at center,
+                    rgba(255, 110, 180, .28) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity .8s;
+            pointer-events: none;
+        }
+
+        body.glowing .bg-glow {
+            opacity: 1;
+        }
+
+        /* ---------- Page Entrance Animation ---------- */
+        .stage {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            animation: entrance 1.2s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        @keyframes entrance {
+            from {
+                opacity: 0;
+                transform: scale(.7) translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* ---------- Glowing Title ---------- */
+        .title {
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #fff;
+            margin-bottom: 36px;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 12px var(--pink), 0 0 28px var(--purple);
+            }
+
+            50% {
+                text-shadow: 0 0 24px var(--pink), 0 0 60px var(--purple),
+                    0 0 80px rgba(255, 255, 255, .15);
+            }
+        }
+
+        /* ============================================================
+       CSS BIRTHDAY CAKE
+    ============================================================ */
+        .cake-wrapper {
+            cursor: pointer;
+            transition: transform .3s ease;
+            user-select: none;
+        }
+
+        .cake-wrapper:hover {
+            transform: scale(1.06);
+        }
+
+        .cake {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: clamp(180px, 44vw, 260px);
+        }
+
+        /* ── Cake Assembling Animation ── */
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Candles ── */
+        .candles {
+            display: flex;
+            gap: 22px;
+            margin-bottom: 4px;
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 2.0s;
+        }
+
+        .candle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flame {
+            width: 12px;
+            height: 20px;
+            background: radial-gradient(ellipse at 50% 80%,
+                    var(--flame1), var(--flame2) 50%, transparent 80%);
+            border-radius: 50% 50% 30% 30%;
+            animation: flicker .8s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+            filter: blur(.5px);
+            position: relative;
+        }
+
+        /* Inner bright core */
+        .flame::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 8px;
+            background: #fff8b0;
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scaleX(1) scaleY(1) rotate(-2deg);
+                opacity: 1;
+            }
+
+            33% {
+                transform: scaleX(.88) scaleY(1.12) rotate(2deg);
+                opacity: .9;
+            }
+
+            66% {
+                transform: scaleX(1.1) scaleY(.94) rotate(-1deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleX(.96) scaleY(1.06) rotate(3deg);
+                opacity: .95;
+            }
+        }
+
+        /* Each candle gets a slightly different rhythm */
+        .candle:nth-child(2) .flame {
+            animation-duration: .6s;
+            animation-delay: .12s;
+        }
+
+        .candle:nth-child(3) .flame {
+            animation-duration: .95s;
+            animation-delay: .24s;
+        }
+
+        .candle-body {
+            width: 10px;
+            height: 36px;
+            border-radius: 3px;
+        }
+
+        .candle:nth-child(1) .candle-body {
+            background: linear-gradient(to bottom, #ff6eb4, #c026d3);
+        }
+
+        .candle:nth-child(2) .candle-body {
+            background: linear-gradient(to bottom, #fbbf24, #f97316);
+        }
+
+        .candle:nth-child(3) .candle-body {
+            background: linear-gradient(to bottom, #60a5fa, #6366f1);
+        }
+
+        .candle-base {
+            width: 14px;
+            height: 6px;
+            background: #fff;
+            border-radius: 2px;
+            opacity: .6;
+        }
+
+        /* ── Cake layers ── */
+        .layer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .layer-top {
+            --w: 55%;
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 1.7s;
+        }
+
+        .layer-mid {
+            --w: 75%;
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 1.4s;
+        }
+
+        .layer-bottom {
+            --w: 100%;
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 1.1s;
+        }
+
+        .cake-body {
+            width: var(--w);
+            height: clamp(36px, 8vw, 52px);
+            border-radius: 6px 6px 4px 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .layer-top .cake-body {
+            background: linear-gradient(135deg, #f9a8d4, #ec4899);
+        }
+
+        .layer-mid .cake-body {
+            background: linear-gradient(135deg, #c084fc, #7c3aed);
+        }
+
+        .layer-bottom .cake-body {
+            background: linear-gradient(135deg, #fb923c, #dc2626);
+        }
+
+        /* Subtle stripe on each layer */
+        .cake-body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 16px,
+                    rgba(255, 255, 255, .12) 16px, rgba(255, 255, 255, .12) 18px);
+        }
+
+        /* Cream frosting drip */
+        .frosting {
+            width: var(--w);
+            height: 14px;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            position: relative;
+        }
+
+        .frosting::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 14px;
+            /* Scalloped drip pattern */
+            background:
+                radial-gradient(ellipse 14px 12px at 7px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 21px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 35px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 49px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 63px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 77px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 91px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 105px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 119px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 133px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 147px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 161px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 175px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 189px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 203px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 217px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 231px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 245px 0, white 70%, transparent 71%),
+                radial-gradient(ellipse 14px 12px at 259px 0, white 70%, transparent 71%);
+        }
+
+        /* Plate */
+        .plate {
+            width: 110%;
+            height: 16px;
+            background: linear-gradient(to bottom, #f1f5f9, #cbd5e1);
+            border-radius: 50%;
+            margin-top: 2px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .5);
+            animation: dropIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 0.8s;
+        }
+
+        /* Blinking tap hint */
+        .click-hint {
+            margin-top: 14px;
+            font-size: .78rem;
+            color: rgba(255, 255, 255, .5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: opacity .5s;
+            animation: hintEntrance 0.4s ease 2.6s backwards, blink 2s ease-in-out 3s infinite;
+        }
+
+        @keyframes hintEntrance {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: .5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+       WISH BOX — glassmorphism
+    ============================================================ */
+        .wish-box {
+            margin-top: 32px;
+            padding: 28px 36px;
+            background: rgba(255, 255, 255, .08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 24px;
+            text-align: center;
+            max-width: min(480px, 90vw);
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .9s ease, transform .9s ease;
+            box-shadow: 0 8px 32px rgba(168, 85, 247, .3),
+                inset 0 1px 0 rgba(255, 255, 255, .15);
+        }
+
+        .wish-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sparkle host — relative so sparkles position inside it */
+        .sparkle-host {
+            position: relative;
+            display: inline-block;
+        }
+
+        .wish-main {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            color: #fff;
+            text-shadow: 0 0 14px var(--pink), 0 0 32px rgba(255, 255, 255, .25);
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+
+        .wish-sub {
+            font-size: clamp(.88rem, 2.5vw, 1.12rem);
+            color: rgba(255, 255, 255, .82);
+            letter-spacing: 1px;
+            line-height: 1.7;
+        }
+
+        /* Individual sparkle dot */
+        .sparkle {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+            pointer-events: none;
+            opacity: 0;
+            animation: sparkle-pop .65s ease-out forwards;
+        }
+
+        @keyframes sparkle-pop {
+            0% {
+                opacity: 1;
+                transform: scale(0) translate(0, 0);
+            }
+
+            40% {
+                opacity: 1;
+                transform: scale(1.5) translate(var(--tx), var(--ty));
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0) translate(var(--tx2), var(--ty2));
+            }
+        }
+
+        /* ============================================================
+       FLOATING BALLOONS
+    ============================================================ */
+        .balloon-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .balloon {
+            position: absolute;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float-up linear infinite;
+            opacity: .72;
+        }
+
+        .balloon::after {
+            /* string */
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 1px;
+            height: 20px;
+            background: rgba(255, 255, 255, .4);
+            transform: translateX(-50%);
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-48vh) rotate(5deg);
+            }
+
+            100% {
+                transform: translateY(-104vh) rotate(-3deg);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================================
+       CONFETTI CANVAS
+    ============================================================ */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* ============================================================
+       MUSIC BUTTON
+    ============================================================ */
+        .music-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 30;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, .3);
+            background: rgba(255, 255, 255, .1);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .2s, background .2s;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .35);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, .22);
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+        @media (max-width: 480px) {
+            .candles {
+                gap: 14px;
+            }
+
+            .candle-body {
+                height: 28px;
+            }
+
+            .wish-box {
+                padding: 20px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Animated gradient bg -->
+    <div class="bg-gradient"></div>
+    <!-- Click-activated glow -->
+    <div class="bg-glow"></div>
+
+    <!-- Floating balloons layer -->
+    <div class="balloon-layer" id="balloonLayer"></div>
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- ========== Main Stage ========== -->
+    <div class="stage">
+
+        <h1 class="title">✨ Happy Birthday ✨</h1>
+
+        <!-- CSS Cake -->
+        <div class="cake-wrapper" id="cake">
+            <div class="cake">
+
+                <!-- 3 candles with flickering flames -->
+                <div class="candles">
+                    <div class="candle">
+                        <div class="flame"></div>
+                        <div class="candle-body"></div>
+                        <div class="candle-base"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame"></div>
+                        <div class="candle-body"></div>
+                        <div class="candle-base"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame"></div>
+                        <div class="candle-body"></div>
+                        <div class="candle-base"></div>
+                    </div>
+                </div>
+
+                <!-- Top layer -->
+                <div class="layer layer-top">
+                    <div class="frosting"></div>
+                    <div class="cake-body"></div>
+                </div>
+                <!-- Middle layer -->
+                <div class="layer layer-mid">
+                    <div class="frosting"></div>
+                    <div class="cake-body"></div>
+                </div>
+                <!-- Bottom layer -->
+                <div class="layer layer-bottom">
+                    <div class="frosting"></div>
+                    <div class="cake-body"></div>
+                </div>
+
+                <div class="plate"></div>
+            </div>
+
+            <p class="click-hint" id="hint">tap the cake 🎂</p>
+        </div>
+
+        <!-- Glassmorphism wish box (hidden initially) -->
+        <div class="wish-box" id="wishBox">
+            <div class="sparkle-host" id="sparkleHost">
+                <p class="wish-main">Happy Birthday Siva shankari ❤️</p>
+            </div>
+            <p class="wish-sub">
+                Wishing you endless happiness, love &amp; success!<br>
+                May every dream you dare to dream come true. 🌟
+            </p>
+        </div>
+
+    </div><!-- end .stage -->
+
+    <!-- Music toggle -->
+    <button class="music-btn" id="musicBtn" title="Play / Pause music">🎵</button>
+
+    <!-- ===================== JAVASCRIPT ===================== -->
+    <script>
+        /* ─────────────────────────────────────────────
+           1. SPAWN FLOATING BALLOONS
+        ───────────────────────────────────────────── */
+        (function () {
+            const layer = document.getElementById('balloonLayer');
+            const colors = ['#ff6eb4', '#a855f7', '#fbbf24', '#34d399',
+                '#60a5fa', '#f97316', '#e879f9'];
+            for (let i = 0; i < 14; i++) {
+                const el = document.createElement('div');
+                el.className = 'balloon';
+                const c = colors[i % colors.length];
+                const w = 36 + Math.random() * 22;
+                el.style.cssText = `
+          left: ${(i / 14) * 96 + Math.random() * 4}%;
+          bottom: -130px;
+          width:  ${w}px;
+          height: ${(w * 1.25).toFixed(0)}px;
+          background: radial-gradient(circle at 35% 32%, ${c}cc, ${c});
+          animation-duration: ${11 + Math.random() * 13}s;
+          animation-delay: -${(Math.random() * 13).toFixed(2)}s;
+        `;
+                layer.appendChild(el);
+            }
+        })();
+
+        /* ─────────────────────────────────────────────
+           2. CONFETTI ENGINE
+        ───────────────────────────────────────────── */
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let parts = [];
+        let raf = null;
+
+        function resizeCanvas() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+        }
+        addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function launchConfetti(ox, oy) {
+            const palette = ['#ff6eb4', '#a855f7', '#fbbf24', '#34d399',
+                '#60a5fa', '#f97316', '#fff', '#e879f9'];
+            for (let i = 0; i < 220; i++) {
+                const ang = Math.random() * Math.PI * 2;
+                const spd = 4 + Math.random() * 10;
+                parts.push({
+                    x: ox, y: oy,
+                    vx: Math.cos(ang) * spd,
+                    vy: Math.sin(ang) * spd - 7,
+                    color: palette[~~(Math.random() * palette.length)],
+                    sz: 5 + Math.random() * 8,
+                    life: 1,
+                    decay: .011 + Math.random() * .011,
+                    rot: Math.random() * 360,
+                    rotV: (Math.random() - .5) * 9,
+                    rect: Math.random() > .45
+                });
+            }
+        }
+
+        function tickConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            parts = parts.filter(p => p.life > 0);
+            for (const p of parts) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot * Math.PI / 180);
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                if (p.rect) ctx.fillRect(-p.sz / 2, -p.sz / 4, p.sz, p.sz / 2);
+                else { ctx.beginPath(); ctx.arc(0, 0, p.sz / 2, 0, Math.PI * 2); ctx.fill(); }
+                ctx.restore();
+                p.x += p.vx; p.y += p.vy;
+                p.vy += 0.38; p.vx *= 0.98;
+                p.rot += p.rotV;
+                p.life -= p.decay;
+            }
+            if (parts.length) raf = requestAnimationFrame(tickConfetti);
+        }
+
+        /* ─────────────────────────────────────────────
+           3. SPARKLE BURST AROUND WISH TEXT
+        ───────────────────────────────────────────── */
+        function fireSparkles() {
+            const host = document.getElementById('sparkleHost');
+            const N = 16;
+            for (let i = 0; i < N; i++) {
+                setTimeout(() => {
+                    const sp = document.createElement('div');
+                    sp.className = 'sparkle';
+                    const ang = (i / N) * 360;
+                    const r1 = 50 + Math.random() * 20;
+                    const r2 = 85 + Math.random() * 30;
+                    sp.style.setProperty('--tx', (Math.cos(ang * Math.PI / 180) * r1).toFixed(1) + 'px');
+                    sp.style.setProperty('--ty', (Math.sin(ang * Math.PI / 180) * r1).toFixed(1) + 'px');
+                    sp.style.setProperty('--tx2', (Math.cos(ang * Math.PI / 180) * r2).toFixed(1) + 'px');
+                    sp.style.setProperty('--ty2', (Math.sin(ang * Math.PI / 180) * r2).toFixed(1) + 'px');
+                    sp.style.left = '50%'; sp.style.top = '50%';
+                    sp.style.transform = 'translate(-50%,-50%)';
+                    host.appendChild(sp);
+                    setTimeout(() => sp.remove(), 750);
+                }, i * 55);
+            }
+        }
+
+        /* ─────────────────────────────────────────────
+           4. CAKE CLICK HANDLER
+        ───────────────────────────────────────────── */
+        let clicked = false;
+        document.getElementById('cake').addEventListener('click', function (e) {
+            /* Confetti from cake centre */
+            const r = this.getBoundingClientRect();
+            launchConfetti(r.left + r.width / 2, r.top + r.height / 2);
+            if (raf) cancelAnimationFrame(raf);
+            tickConfetti();
+
+            /* Background glow */
+            document.body.classList.add('glowing');
+            setTimeout(() => document.body.classList.remove('glowing'), 2200);
+
+            /* Reveal wish box */
+            document.getElementById('wishBox').classList.add('visible');
+
+            /* Two waves of sparkles */
+            setTimeout(fireSparkles, 500);
+            setTimeout(fireSparkles, 1350);
+
+            /* Hide hint on first click */
+            if (!clicked) {
+                document.getElementById('hint').style.opacity = '0';
+                clicked = true;
+            }
+        });
+
+        /* ─────────────────────────────────────────────
+           5. WEB AUDIO — Happy Birthday melody
+        ───────────────────────────────────────────── */
+        let audioCtx = null;
+        let isPlaying = false;
+        let loopTimer = null;
+
+        /* Note frequencies */
+        const F = {
+            G4: 392.00, A4: 440.00, B4: 493.88,
+            C5: 523.25, D5: 587.33, E5: 659.25, G5: 783.99
+        };
+        /* Happy Birthday simplified melody: [note, beats] */
+        const SONG = [
+            ['G4', .375], ['G4', .125], ['A4', .5], ['G4', .5], ['C5', .5], ['B4', 1],
+            ['G4', .375], ['G4', .125], ['A4', .5], ['G4', .5], ['D5', .5], ['C5', 1],
+            ['G4', .375], ['G4', .125], ['G5', .5], ['E5', .5], ['C5', .5], ['B4', .5], ['A4', 1],
+            ['E5', .375], ['E5', .125], ['D5', .5], ['C5', .5], ['D5', .5], ['C5', 1.5]
+        ];
+        const BEAT = 60 / 112; /* BPM = 112 */
+
+        function playMelody() {
+            if (!audioCtx) return;
+            let t = audioCtx.currentTime + 0.05, total = 0;
+            SONG.forEach(([note, beats]) => {
+                const dur = beats * BEAT;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(F[note], t);
+                gain.gain.setValueAtTime(0, t);
+                gain.gain.linearRampToValueAtTime(.13, t + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + dur * .9);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(t); osc.stop(t + dur);
+                t += dur; total += dur;
+            });
+            loopTimer = setTimeout(playMelody, total * 1000);
+        }
+
+        function stopMelody() {
+            clearTimeout(loopTimer);
+            if (audioCtx) { audioCtx.close(); audioCtx = null; }
+        }
+
+        document.getElementById('musicBtn').addEventListener('click', function () {
+            if (!isPlaying) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                playMelody();
+                this.textContent = '⏸';
+            } else {
+                stopMelody();
+                this.textContent = '🎵';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+</body>
+
+</html>
