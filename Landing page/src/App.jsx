@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const handleJoinWhatsApp = () => {
     // Inject WhatsApp channel link here later
-    window.location.href = '#';
+    window.location.href = 'https://whatsapp.com/channel/0029Vb8FE1UDeON3dFhrVq1C';
   };
 
   return (
