@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-green-500: #25D366; /* WhatsApp Green */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  color: #111827; /* text-gray-900 */
+  background-color: #f9fafb; /* bg-gray-50 */
+}
